@@ -1,0 +1,257 @@
+.safety-loop-panel {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 0;
+  background: var(--bg-panel);
+  overflow: hidden;
+  min-height: 0;
+}
+
+.safety-loop-left {
+  border-right: 1px solid var(--border-color);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.safety-loop-right {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sl-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sl-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-primary);
+}
+
+.sl-subtitle {
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.3px;
+}
+
+.sl-cards {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.intervention-card {
+  border: 1px solid var(--border-highlight);
+  border-radius: 8px;
+  background: var(--bg-tertiary);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.intervention-card.ic-executed {
+  opacity: 0.55;
+}
+
+.ic-header {
+  display: flex;
+  align-items: center;
+}
+
+.ic-priority {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 2px 7px;
+  border-radius: 3px;
+}
+
+.ic-priority-1 {
+  color: #fca5a5;
+  background: rgba(220, 38, 38, 0.18);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+}
+
+.ic-priority-2 {
+  color: var(--accent-amber);
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.ic-priority-3 {
+  color: #93c5fd;
+  background: rgba(37, 99, 235, 0.15);
+  border: 1px solid rgba(37, 99, 235, 0.35);
+}
+
+.ic-done-badge {
+  color: var(--accent-green);
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.ic-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.ic-row {
+  font-size: 10.5px;
+  color: var(--text-secondary);
+}
+
+.ic-label {
+  color: var(--text-muted);
+  margin-right: 2px;
+}
+
+.ic-risk-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 2px 0;
+}
+
+.ic-risk-values {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--text-secondary);
+}
+
+.ic-risk-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.ic-risk-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-green), var(--accent-amber), var(--accent-red));
+  transition: width 0.8s ease;
+}
+
+.ic-compliance {
+  font-size: 9.5px;
+  color: var(--accent-cyan);
+  opacity: 0.85;
+  font-style: italic;
+}
+
+.ic-execute-btn {
+  margin-top: 4px;
+  padding: 7px 0;
+  border: 1px solid rgba(220, 38, 38, 0.5);
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.25), rgba(220, 38, 38, 0.1));
+  color: #fca5a5;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.ic-execute-btn:hover {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.4), rgba(220, 38, 38, 0.2));
+  transform: scale(1.01);
+}
+
+/* Confirmation modal */
+.sl-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+}
+
+.sl-modal {
+  width: 360px;
+  max-width: 90%;
+  background: var(--bg-secondary);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 0 40px rgba(220, 38, 38, 0.15), 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.sl-modal-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #fca5a5;
+  margin-bottom: 10px;
+}
+
+.sl-modal-row {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 7px;
+  line-height: 1.4;
+}
+
+.sl-modal-row span {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.sl-modal-projection {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-primary);
+}
+
+.sl-modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.sl-confirm-btn {
+  flex: 1;
+  padding: 9px 0;
+  border: 1px solid rgba(220, 38, 38, 0.6);
+  border-radius: 6px;
+  background: rgba(220, 38, 38, 0.25);
+  color: #fca5a5;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.sl-confirm-btn:hover {
+  background: rgba(220, 38, 38, 0.4);
+}
+
+.sl-cancel-btn {
+  padding: 9px 16px;
+  border: 1px solid var(--border-highlight);
+  border-radius: 6px;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.sl-cancel-btn:hover {
+  background: var(--bg-panel);
+}

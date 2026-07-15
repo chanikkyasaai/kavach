@@ -1,0 +1,114 @@
+.center-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.center-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 6px 10px 0;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.center-tab-btn {
+  position: relative;
+  padding: 7px 16px;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.center-tab-btn:hover {
+  color: var(--text-secondary);
+}
+
+.center-tab-btn.active {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  border-color: var(--border-highlight);
+}
+
+.center-tab-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-red);
+  box-shadow: 0 0 6px var(--accent-red);
+  animation: badge-blink 1s infinite;
+}
+
+.viewport-3d {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  background: #0f1b2d;
+}
+
+.viewport-label {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.viewport-label span:first-child {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgba(136, 153, 170, 0.5);
+}
+
+.viewport-hint {
+  font-size: 9px;
+  color: rgba(136, 153, 170, 0.25);
+}
+
+.viewport-legend {
+  position: absolute;
+  bottom: 8px;
+  left: 12px;
+  z-index: 10;
+  display: flex;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 8px;
+  color: rgba(136, 153, 170, 0.4);
+  letter-spacing: 0.5px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.dot.permanent { background: #3b82f6; }
+.dot.contract { background: #f59e0b; border-radius: 1px; transform: rotate(45deg); width: 5px; height: 5px; }
+.dot.sensor-ok { background: #10b981; }
+.dot.sensor-warn { background: #f59e0b; }
+.dot.sensor-alarm { background: #ef4444; box-shadow: 0 0 4px #ef4444; }

@@ -1,0 +1,65 @@
+.edge-lighting {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2000;
+}
+
+.edge-strip {
+  position: fixed;
+  pointer-events: none;
+  transition: background 2s ease, box-shadow 2s ease, opacity 2s ease;
+}
+
+.edge-top { top: 0; left: 0; right: 0; height: 6px; }
+.edge-bottom { bottom: 0; left: 0; right: 0; height: 6px; }
+.edge-left { top: 0; left: 0; bottom: 0; width: 6px; }
+.edge-right { top: 0; right: 0; bottom: 0; width: 6px; }
+
+.edge-normal {
+  background: #3b82f6;
+  box-shadow: 0 0 14px 2px rgba(59, 130, 246, 0.45);
+  opacity: 0.4;
+  animation: edge-pulse-normal 4s ease-in-out infinite;
+}
+
+.edge-warning {
+  background: #f59e0b;
+  box-shadow: 0 0 18px 3px rgba(245, 158, 11, 0.55);
+  opacity: 0.55;
+  animation: edge-pulse-warning 2s ease-in-out infinite;
+}
+
+.edge-critical {
+  background: #ef4444;
+  box-shadow: 0 0 24px 4px rgba(239, 68, 68, 0.65);
+  opacity: 0.65;
+  animation: edge-pulse-critical 0.9s ease-in-out infinite;
+}
+
+.edge-emergency {
+  background: #ff1a1a;
+  box-shadow: 0 0 34px 6px rgba(255, 26, 26, 0.85);
+  opacity: 0.75;
+  animation: edge-pulse-emergency 0.3s ease-in-out infinite;
+}
+
+@keyframes edge-pulse-normal {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.55; }
+}
+
+@keyframes edge-pulse-warning {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes edge-pulse-critical {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes edge-pulse-emergency {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}

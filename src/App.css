@@ -1,0 +1,23 @@
+.app-container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 54px 1fr;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 270px 1fr 320px;
+  gap: 0;
+  overflow: hidden;
+  min-height: 0;
+}
+
+@media (max-width: 1400px) {
+  .main-content {
+    grid-template-columns: 240px 1fr 290px;
+  }
+}

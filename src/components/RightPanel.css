@@ -1,0 +1,21 @@
+.right-panel {
+  background: var(--bg-panel);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-left: 1px solid var(--border-color);
+  min-height: 0;
+}
+
+.right-panel-alerts {
+  flex: 0 0 35%;
+  min-height: 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.right-panel-copilot {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}

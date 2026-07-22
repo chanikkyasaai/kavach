@@ -1,8 +1,23 @@
+import { useEffect, useState } from 'react';
 import { useStore } from '../store/useStore';
-import { getRiskColor, formatTime } from '../utils/lopa';
+import { getRiskColor } from '../utils/lopa';
+import DataIntegrationPanel from './DataIntegrationPanel';
+import CornerBrackets from './CornerBrackets';
+import AnimatedNumber from './AnimatedNumber';
 import './Header.css';
 
+// Local-only, display-purposes formatting — derives HH:MM from scenarioTime
+// (minutes) without touching the shared formatTime/store.
+function formatClock(minutes: number): { h: string; m: string } {
+  const baseHour = 15;
+  const totalMinutes = Math.floor(minutes);
+  const h = baseHour + Math.floor(totalMinutes / 60);
+  const m = totalMinutes % 60;
+  return { h: h.toString().padStart(2, '0'), m: m.toString().padStart(2, '0') };
+}
+
 export default function Header() {
+  const [dataPanelOpen, setDataPanelOpen] = useState(false);
   const compoundRisk = useStore(s => s.compoundRisk);
   const scenarioTime = useStore(s => s.scenarioTime);
   const isPlaying = useStore(s => s.isPlaying);
@@ -14,10 +29,19 @@ export default function Header() {
   const soundMuted = useStore(s => s.soundMuted);
   const toggleSoundMuted = useStore(s => s.toggleSoundMuted);
 
+  // Purely decorative "alive" seconds digit — always ticking in real time,
+  // independent of scenario play state. Not tied to scenarioTime/store.
+  const [seconds, setSeconds] = useState(0);
+  useEffect(() => {
+    const id = window.setInterval(() => setSeconds(s => (s + 1) % 60), 1000);
+    return () => window.clearInterval(id);
+  }, []);
+
   const riskColor = getRiskColor(compoundRisk);
   const isCritical = compoundRisk >= 85;
   const isHigh = compoundRisk >= 70;
   const hasStarted = scenarioTime > 0 || isPlaying;
+  const clock = formatClock(scenarioTime);
 
   return (
     <header className={`header ${isCritical ? 'header-critical' : isHigh ? 'header-high' : ''}`}>
@@ -25,9 +49,9 @@ export default function Header() {
         <div className="logo">
           <div className="logo-shield">
             <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-              <path d="M16 2 L28 8 L28 20 L16 28 L4 20 L4 8 Z" stroke="#06b6d4" strokeWidth="1.5" fill="none"/>
-              <path d="M16 6 L24 10 L24 18 L16 24 L8 18 L8 10 Z" stroke="#3b82f6" strokeWidth="1" fill="none" opacity="0.6"/>
-              <circle cx="16" cy="15" r="3" fill="#06b6d4" opacity="0.8"/>
+              <path d="M16 2 L28 8 L28 20 L16 28 L4 20 L4 8 Z" stroke="#00b4ff" strokeWidth="1.5" fill="none"/>
+              <path d="M16 6 L24 10 L24 18 L16 24 L8 18 L8 10 Z" stroke="#00b4ff" strokeWidth="1" fill="none" opacity="0.5"/>
+              <circle cx="16" cy="15" r="3" fill="#00b4ff" opacity="0.9"/>
             </svg>
           </div>
           <div className="logo-text-group">
@@ -37,8 +61,14 @@ export default function Header() {
         </div>
       </div>
 
+      <div className="header-section-divider" />
+
       <div className="header-center">
-        <div className={`compound-risk-display ${isCritical ? 'risk-critical-state' : ''}`}>
+        <div
+          className={`compound-risk-display ${isCritical ? 'risk-critical-state' : ''}`}
+          style={{ borderLeftColor: riskColor, borderRightColor: riskColor }}
+        >
+          <CornerBrackets size={10} />
           <div className="risk-left">
             <span className="risk-label">COMPOUND RISK</span>
             <div className="risk-bar-container">
@@ -53,14 +83,23 @@ export default function Header() {
             </div>
           </div>
           <div className={`risk-score ${isCritical ? 'risk-score-critical' : ''}`} style={{ color: riskColor }}>
-            {compoundRisk}
+            <AnimatedNumber value={compoundRisk} />
           </div>
           {isCritical && <span className="risk-badge critical-badge">CRITICAL</span>}
           {isHigh && !isCritical && <span className="risk-badge high-badge">ELEVATED</span>}
         </div>
       </div>
 
+      <div className="header-section-divider" />
+
       <div className="header-right">
+        <button
+          className="data-sources-btn"
+          onClick={() => setDataPanelOpen(true)}
+          title="Data Integration Architecture"
+        >
+          ⛓ DATA SOURCES
+        </button>
         <button
           className={`mute-btn ${soundMuted ? 'muted' : ''}`}
           onClick={toggleSoundMuted}
@@ -72,7 +111,15 @@ export default function Header() {
           <div className="scenario-info">
             <span className="scenario-label">VSP INCIDENT REPLAY — JUNE 8, 2026</span>
             <div className="scenario-time-row">
-              <span className="scenario-time mono">{formatTime(scenarioTime)}</span>
+              <span className="scenario-clock mono">
+                <span className="clock-segment">{clock.h}</span>
+                <span className="clock-sep" />
+                <span className="clock-segment">{clock.m}</span>
+                <span className="clock-sep" />
+                <span className="clock-segment clock-seconds">
+                  {seconds.toString().padStart(2, '0')}
+                </span>
+              </span>
               <span className="scenario-progress mono">T+{Math.floor(scenarioTime)}m</span>
             </div>
           </div>
@@ -113,6 +160,8 @@ export default function Header() {
           </div>
         </div>
       </div>
+
+      {dataPanelOpen && <DataIntegrationPanel onClose={() => setDataPanelOpen(false)} />}
     </header>
   );
 }

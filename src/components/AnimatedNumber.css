@@ -1,0 +1,28 @@
+.animated-number {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.animated-number-exit {
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: number-exit 200ms ease-in forwards;
+  pointer-events: none;
+}
+
+.animated-number-enter {
+  display: inline-block;
+  animation: number-enter 200ms ease-out;
+}
+
+@keyframes number-exit {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-8px); opacity: 0; }
+}
+
+@keyframes number-enter {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

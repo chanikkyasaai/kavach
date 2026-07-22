@@ -1,0 +1,151 @@
+/* Overrides the app's standard color variables to a teal palette for anything
+ * mounted inside — BowTie, shared buttons, etc. all become teal-tinted for
+ * free with no component-level conditional styling, per spec. */
+.simulation-mode {
+  --bg-primary: #04120f;
+  --bg-secondary: #071e1a;
+  --bg-tertiary: #0a2b24;
+  --bg-panel: #061a16;
+  --border-color: #134e42;
+  --border-highlight: #1c6b5a;
+  --text-primary: #ecfdf7;
+  --text-secondary: #7dd8c5;
+  --text-muted: #4a8f80;
+  --accent-blue: #2dd4bf;
+  --accent-cyan: #5eead4;
+  --accent-green: #34d399;
+  --accent-amber: #f0b429;
+  --accent-red: #f87171;
+  --accent-orange: #fb923c;
+
+  --sim-accent: #2dd4bf;
+}
+
+.sandbox-panel {
+  position: absolute;
+  top: 104px;
+  left: 232px;
+  right: 312px;
+  bottom: 212px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sandbox-banner {
+  padding: 6px 14px;
+  background: rgba(45, 212, 191, 0.08);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--sim-accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.sandbox-presets {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border-color);
+  flex-wrap: wrap;
+}
+
+.sandbox-preset-btn {
+  padding: 6px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sandbox-preset-btn:hover { border-color: var(--sim-accent); color: var(--text-primary); }
+.sandbox-preset-btn.active {
+  background: rgba(45, 212, 191, 0.2);
+  border-color: var(--sim-accent);
+  color: var(--text-primary);
+}
+
+.sandbox-view-toggles {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.sandbox-toggle-btn {
+  padding: 6px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+.sandbox-toggle-btn.active { border-color: var(--sim-accent); color: var(--sim-accent); background: rgba(45, 212, 191, 0.1); }
+
+.sandbox-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 1fr;
+  min-height: 0;
+}
+
+.sandbox-column {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sandbox-column-graph { border-right: 1px solid var(--border-color); }
+.sandbox-column-results { border-left: 1px solid var(--border-color); }
+
+.sandbox-column-3d {
+  position: relative;
+  display: flex;
+}
+
+.sandbox-canvas-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.sandbox-canvas-label {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  z-index: 5;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--sim-accent);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.sandbox-split {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+
+.sandbox-split-divider {
+  width: 1px;
+  background: var(--sim-accent);
+  opacity: 0.4;
+}
+
+.sandbox-bowtie-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 18, 15, 0.88);
+  pointer-events: none;
+}

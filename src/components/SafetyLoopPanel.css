@@ -1,20 +1,23 @@
 .safety-loop-panel {
-  flex: 1;
+  position: absolute;
+  top: 104px;
+  left: 232px;
+  right: 312px;
+  bottom: 212px;
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
-  gap: 0;
-  background: var(--bg-panel);
-  overflow: hidden;
-  min-height: 0;
+  gap: 10px;
+  z-index: 5;
 }
 
 .safety-loop-left {
-  border-right: 1px solid var(--border-color);
+  position: relative;
   min-height: 0;
   overflow: hidden;
 }
 
 .safety-loop-right {
+  position: relative;
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -23,23 +26,25 @@
 
 .sl-header {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 10px 14px 8px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
   border-bottom: 1px solid var(--border-color);
 }
 
 .sl-title {
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.15em;
   color: var(--text-primary);
 }
 
 .sl-subtitle {
   font-size: 8px;
   color: var(--text-muted);
-  letter-spacing: 0.3px;
+  letter-spacing: 0.05em;
+  text-transform: none;
 }
 
 .sl-cards {
@@ -52,8 +57,8 @@
 }
 
 .intervention-card {
+  position: relative;
   border: 1px solid var(--border-highlight);
-  border-radius: 8px;
   background: var(--bg-tertiary);
   padding: 10px 12px;
   display: flex;
@@ -75,31 +80,31 @@
   font-weight: 700;
   letter-spacing: 1.5px;
   padding: 2px 7px;
-  border-radius: 3px;
+  border-radius: var(--radius-xs);
 }
 
 .ic-priority-1 {
-  color: #fca5a5;
-  background: rgba(220, 38, 38, 0.18);
-  border: 1px solid rgba(220, 38, 38, 0.4);
+  color: var(--accent-red);
+  background: rgba(193, 68, 63, 0.12);
+  border: 1px solid rgba(193, 68, 63, 0.4);
 }
 
 .ic-priority-2 {
   color: var(--accent-amber);
-  background: rgba(245, 158, 11, 0.15);
-  border: 1px solid rgba(245, 158, 11, 0.35);
+  background: rgba(198, 138, 52, 0.12);
+  border: 1px solid rgba(198, 138, 52, 0.35);
 }
 
 .ic-priority-3 {
-  color: #93c5fd;
-  background: rgba(37, 99, 235, 0.15);
-  border: 1px solid rgba(37, 99, 235, 0.35);
+  color: var(--accent-blue);
+  background: rgba(61, 124, 235, 0.12);
+  border: 1px solid rgba(61, 124, 235, 0.35);
 }
 
 .ic-done-badge {
   color: var(--accent-green);
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.35);
+  background: rgba(63, 157, 111, 0.12);
+  border: 1px solid rgba(63, 157, 111, 0.35);
 }
 
 .ic-title {
@@ -155,20 +160,19 @@
 .ic-execute-btn {
   margin-top: 4px;
   padding: 7px 0;
-  border: 1px solid rgba(220, 38, 38, 0.5);
-  border-radius: 6px;
-  background: linear-gradient(135deg, rgba(220, 38, 38, 0.25), rgba(220, 38, 38, 0.1));
-  color: #fca5a5;
+  border: 1px solid var(--accent-red);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  color: var(--accent-red);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 1.5px;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background 0.15s;
 }
 
 .ic-execute-btn:hover {
-  background: linear-gradient(135deg, rgba(220, 38, 38, 0.4), rgba(220, 38, 38, 0.2));
-  transform: scale(1.01);
+  background: rgba(193, 68, 63, 0.15);
 }
 
 /* Confirmation modal */
@@ -183,20 +187,21 @@
 }
 
 .sl-modal {
+  position: relative;
   width: 360px;
   max-width: 90%;
-  background: var(--bg-secondary);
-  border: 1px solid rgba(220, 38, 38, 0.4);
-  border-radius: 10px;
+  background: var(--panel-glass);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--accent-red);
   padding: 18px;
-  box-shadow: 0 0 40px rgba(220, 38, 38, 0.15), 0 8px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-elevated);
 }
 
 .sl-modal-title {
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  color: #fca5a5;
+  color: var(--accent-red);
   margin-bottom: 10px;
 }
 
@@ -226,10 +231,10 @@
 .sl-confirm-btn {
   flex: 1;
   padding: 9px 0;
-  border: 1px solid rgba(220, 38, 38, 0.6);
-  border-radius: 6px;
-  background: rgba(220, 38, 38, 0.25);
-  color: #fca5a5;
+  border: 1px solid var(--accent-red);
+  border-radius: var(--radius-sm);
+  background: rgba(193, 68, 63, 0.15);
+  color: var(--accent-red);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 1px;
@@ -237,13 +242,13 @@
 }
 
 .sl-confirm-btn:hover {
-  background: rgba(220, 38, 38, 0.4);
+  background: rgba(193, 68, 63, 0.28);
 }
 
 .sl-cancel-btn {
   padding: 9px 16px;
   border: 1px solid var(--border-highlight);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: var(--bg-tertiary);
   color: var(--text-secondary);
   font-size: 10px;

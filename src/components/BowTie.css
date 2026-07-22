@@ -7,9 +7,10 @@
 
 .bowtie-header {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 10px 14px 4px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
 }
 
 .bowtie-title {
@@ -84,14 +85,14 @@
 }
 
 .bowtie-escalation-label {
-  fill: #fca5a5;
+  fill: var(--accent-red);
   font-size: 6.5px;
   font-weight: 500;
 }
 
 .bowtie-top-event {
-  fill: #1a0d0d;
-  stroke: #ef4444;
+  fill: var(--bg-elevated);
+  stroke: var(--accent-red);
   stroke-width: 2;
   transition: stroke 1s ease, fill 1s ease;
 }
@@ -101,12 +102,12 @@
 }
 
 @keyframes bowtie-top-event-pulse {
-  0%, 100% { stroke-width: 2; filter: drop-shadow(0 0 4px rgba(239, 68, 68, 0.5)); }
-  50% { stroke-width: 3.5; filter: drop-shadow(0 0 14px rgba(239, 68, 68, 0.9)); }
+  0%, 100% { stroke-width: 2; }
+  50% { stroke-width: 3.5; }
 }
 
 .bowtie-top-event-label {
-  fill: #fca5a5;
+  fill: var(--accent-red);
   font-size: 9.5px;
   font-weight: 700;
   letter-spacing: 0.5px;

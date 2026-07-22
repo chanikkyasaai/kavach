@@ -6,6 +6,7 @@ import { rankInterventions } from '../utils/safetyLoop';
 import type { RankedIntervention } from '../utils/safetyLoop';
 import { formatTime } from '../utils/lopa';
 import BowTie from './BowTie';
+import CornerBrackets from './CornerBrackets';
 import './SafetyLoopPanel.css';
 
 export default function SafetyLoopPanel() {
@@ -26,14 +27,22 @@ export default function SafetyLoopPanel() {
 
   return (
     <div className="safety-loop-panel">
-      <div className="safety-loop-left">
+      <div className="safety-loop-left glass-panel">
+        <CornerBrackets />
         <BowTie ipls={ipls} compoundRisk={compoundRisk} />
       </div>
 
-      <div className="safety-loop-right">
-        <div className="sl-header">
-          <span className="sl-title">REACTIVE INTERVENTION EXECUTOR</span>
-          <span className="sl-subtitle">Ranked by risk reduction ÷ time to implement</span>
+      <div className="safety-loop-right glass-panel">
+        <CornerBrackets />
+        <div className="sl-header panel-header-bar">
+          <span>
+            <span className="panel-glyph">◈</span>
+            <span className="sl-title">REACTIVE INTERVENTION EXECUTOR</span>
+          </span>
+          <span className="panel-header-right">
+            <span className="sl-subtitle">Ranked by risk reduction ÷ time to implement</span>
+            <span className="panel-live-dot" />
+          </span>
         </div>
 
         <div className="sl-cards">
@@ -60,6 +69,7 @@ export default function SafetyLoopPanel() {
       {pending && pendingProjection && (
         <div className="sl-modal-overlay" onClick={() => setPendingId(null)}>
           <div className="sl-modal" onClick={e => e.stopPropagation()}>
+            <CornerBrackets size={10} />
             <h3 className="sl-modal-title">EXECUTE: {pending.title}</h3>
             <p className="sl-modal-row"><span>This will:</span> {pending.restoredFactors}</p>
             <p className="sl-modal-row"><span>By:</span> {pending.who} at {formatTime(scenarioTime)}</p>
@@ -97,6 +107,7 @@ function InterventionCard({ intervention, currentRisk, priority, executed, onExe
 
   return (
     <div className={`intervention-card ${executed ? 'ic-executed' : ''}`}>
+      <CornerBrackets size={8} thickness={1} />
       <div className="ic-header">
         <span className={`ic-priority ${executed ? 'ic-done-badge' : `ic-priority-${priority}`}`}>
           {executed ? '✓ EXECUTED' : `PRIORITY ${priority}`}

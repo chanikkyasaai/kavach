@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { Text } from '@react-three/drei';
+import { Text, Billboard } from '@react-three/drei';
 import type { Zone } from '../../data/zones';
 
 interface ZonePlateProps {
@@ -25,11 +25,11 @@ export default function ZonePlate({ zone, isCritical }: ZonePlateProps) {
         mat.color.set('#7f1d1d');
         mat.emissive.set('#ef4444');
       } else {
-        // Dark, muted baseline — industrial concrete feel
-        mat.emissiveIntensity = 0.01;
-        mat.opacity = 0.2;
-        mat.color.set('#1e293b');
-        mat.emissive.set('#334155');
+        // Dark, muted baseline — holographic zone outline, floor barely there
+        mat.emissiveIntensity = 0.03;
+        mat.opacity = 0.12;
+        mat.color.set('#0a1420');
+        mat.emissive.set('#00b4ff');
       }
     }
 
@@ -59,34 +59,34 @@ export default function ZonePlate({ zone, isCritical }: ZonePlateProps) {
       <mesh ref={meshRef} receiveShadow position={[0, 0.01, 0]}>
         <boxGeometry args={[zone.size.width, 0.04, zone.size.depth]} />
         <meshStandardMaterial
-          color="#1e293b"
-          emissive="#334155"
-          emissiveIntensity={0.01}
+          color="#0a1420"
+          emissive="#00b4ff"
+          emissiveIntensity={0.03}
           transparent
-          opacity={0.2}
+          opacity={0.12}
           metalness={0.4}
-          roughness={0.8}
+          roughness={0.3}
         />
       </mesh>
 
-      {/* Border — thin, muted, brightens only on critical */}
+      {/* Border — full-opacity glowing edge outline, holographic wireframe feel */}
       <mesh position={[0, 0.025, 0]}>
         <boxGeometry args={[zone.size.width + 0.01, 0.003, zone.size.depth + 0.01]} />
         <meshBasicMaterial
-          color={isCritical ? '#ef4444' : '#475569'}
+          color={isCritical ? '#ef4444' : '#00b4ff'}
           transparent
-          opacity={isCritical ? 0.9 : 0.25}
+          opacity={isCritical ? 0.9 : 0.4}
         />
       </mesh>
 
       {/* Subtle cross markers */}
       <mesh position={[0, 0.02, 0]}>
         <boxGeometry args={[zone.size.width * 0.6, 0.002, 0.003]} />
-        <meshBasicMaterial color="#475569" transparent opacity={0.12} />
+        <meshBasicMaterial color="#00b4ff" transparent opacity={0.12} />
       </mesh>
       <mesh position={[0, 0.02, 0]}>
         <boxGeometry args={[0.003, 0.002, zone.size.depth * 0.6]} />
-        <meshBasicMaterial color="#475569" transparent opacity={0.12} />
+        <meshBasicMaterial color="#00b4ff" transparent opacity={0.12} />
       </mesh>
 
       {/* Pulse ring for critical zones */}
@@ -106,17 +106,17 @@ export default function ZonePlate({ zone, isCritical }: ZonePlateProps) {
       </mesh>
 
       {/* Zone ID label */}
-      <Text
-        position={[-zone.size.width / 2 + 0.12, 0.06, -zone.size.depth / 2 + 0.1]}
-        fontSize={0.1}
-        color={isCritical ? '#fca5a5' : '#64748b'}
-        anchorX="left"
-        anchorY="bottom"
-        letterSpacing={0.08}
-        font={undefined}
-      >
-        {zone.id}
-      </Text>
+      <Billboard position={[-zone.size.width / 2 + 0.12, 0.1, -zone.size.depth / 2 + 0.1]}>
+        <Text
+          fontSize={0.1}
+          color={isCritical ? '#fca5a5' : '#00b4ff'}
+          anchorX="left"
+          anchorY="bottom"
+          letterSpacing={0.08}
+        >
+          {zone.id}
+        </Text>
+      </Billboard>
 
       {/* Corner markers */}
       {[
@@ -128,9 +128,9 @@ export default function ZonePlate({ zone, isCritical }: ZonePlateProps) {
         <mesh key={i} position={pos as [number, number, number]}>
           <boxGeometry args={[0.04, 0.04, 0.04]} />
           <meshBasicMaterial
-            color={isCritical ? '#ef4444' : '#475569'}
+            color={isCritical ? '#ef4444' : '#00b4ff'}
             transparent
-            opacity={isCritical ? 0.8 : 0.2}
+            opacity={isCritical ? 0.8 : 0.3}
           />
         </mesh>
       ))}

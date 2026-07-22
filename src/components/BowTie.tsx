@@ -10,23 +10,23 @@ interface BowTieProps {
 
 const THREAT_X = 10;
 const THREAT_W = 170;
-const THREAT_H = 48;
-const THREAT_YS = [20, 166, 312];
+const THREAT_H = 68;
+const THREAT_YS = [30, 240, 450];
 
 const BANK_X = 250;
 const BANK_W = 140;
-const BAR_H = 70;
-const BAR_GAP = 8;
-const BANK_Y0 = 19;
+const BAR_H = 100;
+const BAR_GAP = 12;
+const BANK_Y0 = 28;
 
 const TOP_EVENT_CX = 520;
-const TOP_EVENT_CY = 210;
-const TOP_EVENT_R = 58;
+const TOP_EVENT_CY = 300;
+const TOP_EVENT_R = 83;
 
 const CONS_X = 650;
 const CONS_W = 240;
-const CONS_H = 48;
-const CONS_YS = [20, 166, 312];
+const CONS_H = 68;
+const CONS_YS = [30, 240, 450];
 
 function barrierWidth(score: number): number {
   const pct = Math.max(0, Math.min(100, score)) / 100;
@@ -57,11 +57,17 @@ export default function BowTie({ ipls, compoundRisk }: BowTieProps) {
 
   return (
     <div className="bowtie">
-      <div className="bowtie-header">
-        <span className="bowtie-title">LIVE BOW-TIE THREAT PATHWAY</span>
-        <span className="bowtie-subtitle">LOPA / IOGP Bow-Tie · SG-26</span>
+      <div className="bowtie-header panel-header-bar">
+        <span>
+          <span className="panel-glyph">◈</span>
+          <span className="bowtie-title">LIVE BOW-TIE THREAT PATHWAY</span>
+        </span>
+        <span className="panel-header-right">
+          <span className="bowtie-subtitle">LOPA / IOGP Bow-Tie · SG-26</span>
+          <span className="panel-live-dot" />
+        </span>
       </div>
-      <svg viewBox="0 0 900 420" className="bowtie-svg" preserveAspectRatio="xMidYMid meet">
+      <svg viewBox="0 0 900 600" className="bowtie-svg" preserveAspectRatio="xMidYMid meet">
         {/* Threat → barrier-bank connectors */}
         {THREAT_YS.map((y, i) => (
           <line

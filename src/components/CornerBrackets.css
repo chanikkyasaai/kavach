@@ -1,0 +1,17 @@
+.corner-brackets {
+  --bracket-color: #00b4ff;
+  --bracket-thickness: 2px;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.corner-bracket {
+  position: absolute;
+  border-color: var(--bracket-color);
+}
+
+.corner-tl { top: 0; left: 0; border-top: var(--bracket-thickness) solid; border-left: var(--bracket-thickness) solid; }
+.corner-tr { top: 0; right: 0; border-top: var(--bracket-thickness) solid; border-right: var(--bracket-thickness) solid; }
+.corner-bl { bottom: 0; left: 0; border-bottom: var(--bracket-thickness) solid; border-left: var(--bracket-thickness) solid; }
+.corner-br { bottom: 0; right: 0; border-bottom: var(--bracket-thickness) solid; border-right: var(--bracket-thickness) solid; }

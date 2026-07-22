@@ -7,6 +7,7 @@ import RightPanel from './components/RightPanel';
 import EvidenceBundle from './components/EvidenceBundle';
 import EdgeLighting from './components/EdgeLighting';
 import { useAmbientSound } from './utils/ambientSound';
+import './components/PanelChrome.css';
 import './App.css';
 
 function App() {
@@ -34,12 +35,10 @@ function App() {
 
   return (
     <div className="app-container">
+      <CenterPanel />
       <Header />
-      <div className="main-content">
-        <LeftPanel />
-        <CenterPanel />
-        <RightPanel />
-      </div>
+      <LeftPanel />
+      <RightPanel />
       <EvidenceBundle />
       <EdgeLighting />
     </div>

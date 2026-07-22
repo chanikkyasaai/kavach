@@ -70,8 +70,8 @@ export default function SimopsBeam({ active }: SimopsBeamProps) {
 
   if (!active) return null;
 
-  // Position: center of Z1 melt shop where the conflict exists
-  const center: [number, number, number] = [-2, 0, -2];
+  // Position: SMS-1 ladle bay — the specific incident location within Z1
+  const center: [number, number, number] = [6.5, 0, -1.7];
 
   return (
     <group position={center}>

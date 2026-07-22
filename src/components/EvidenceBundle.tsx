@@ -1,6 +1,7 @@
 import { useStore } from '../store/useStore';
 import { sensors } from '../data/sensors';
 import { formatTime } from '../utils/lopa';
+import CornerBrackets from './CornerBrackets';
 import './EvidenceBundle.css';
 
 export default function EvidenceBundle() {
@@ -94,6 +95,7 @@ Tamper-evident hash: SHA-256 [computed at preservation time]
   return (
     <div className="evidence-overlay" onClick={hideEvidenceBundle}>
       <div className="evidence-modal" onClick={(e) => e.stopPropagation()}>
+        <CornerBrackets size={12} />
         <div className="evidence-header">
           <div>
             <h2 className="evidence-title">🔒 EVIDENCE BUNDLE PRESERVED</h2>

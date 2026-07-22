@@ -1,25 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
-  --bg-primary: #060a10;
-  --bg-secondary: #0c1220;
-  --bg-tertiary: #121d30;
-  --bg-panel: #0a1018;
-  --border-color: #152035;
-  --border-highlight: #1e3355;
-  --text-primary: #e4eaf4;
-  --text-secondary: #7d8fa8;
-  --text-muted: #4a5c72;
-  --accent-blue: #2563eb;
-  --accent-cyan: #06b6d4;
-  --accent-green: #10b981;
-  --accent-amber: #f59e0b;
-  --accent-red: #dc2626;
-  --accent-orange: #ea580c;
-  --risk-low: #10b981;
-  --risk-medium: #f59e0b;
-  --risk-high: #ea580c;
-  --risk-critical: #dc2626;
+  /* True black — precision war-room terminal, not navy. */
+  --bg-primary: #050508;
+  --bg-secondary: #050508;
+  --bg-tertiary: #090c11;
+  --bg-panel: #050508;
+  --bg-elevated: #0d121a;
+  --border-color: rgba(0, 180, 255, 0.12);
+  --border-highlight: rgba(0, 180, 255, 0.22);
+  --text-primary: #e6f4ff;
+  --text-secondary: #7a8a99;
+  --text-muted: #4a5563;
+
+  /* Glass panel fill — used by every panel's background per the FUI spec. */
+  --panel-glass: rgba(0, 6, 14, 0.72);
+
+  /* One functional accent (cyan-blue) + status colors used sparingly. */
+  --accent-blue: #00b4ff;
+  --accent-cyan: #00b4ff;
+  --accent-green: #3f9d6f;
+  --accent-amber: #c68a34;
+  --accent-red: #c1443f;
+  --accent-orange: #bd6b34;
+  --risk-low: #3f9d6f;
+  --risk-medium: #c68a34;
+  --risk-high: #bd6b34;
+  --risk-critical: #c1443f;
+
+  /* Hard industrial edges — zero radius everywhere. Corner registration
+     brackets (see CornerBrackets.tsx) carry the framing instead. */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.7);
 }
 
 * {
@@ -37,6 +51,17 @@ html, body, #root {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+/* Vignette — draws the eye to center, terminal-in-a-dark-room feel. */
+body::before {
+  content: '';
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.65) 100%);
 }
 
 ::-webkit-scrollbar {

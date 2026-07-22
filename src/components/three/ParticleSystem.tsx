@@ -21,9 +21,9 @@ export default function ParticleSystem({ criticalZones, compoundRisk }: Props) {
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(sparkCount * 3);
     for (let i = 0; i < sparkCount; i++) {
-      positions[i * 3] = -2 + (Math.random() - 0.5) * 3;
+      positions[i * 3] = 6.5 + (Math.random() - 0.5) * 3;
       positions[i * 3 + 1] = Math.random() * 4;
-      positions[i * 3 + 2] = -2 + (Math.random() - 0.5) * 2;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 2;
     }
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     return geo;
@@ -33,8 +33,8 @@ export default function ParticleSystem({ criticalZones, compoundRisk }: Props) {
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(smokeCount * 3);
     for (let i = 0; i < smokeCount; i++) {
-      positions[i * 3] = 3 + (Math.random() - 0.5) * 0.5;
-      positions[i * 3 + 1] = 3.5 + Math.random() * 2;
+      positions[i * 3] = 0 + (Math.random() - 0.5) * 0.5;
+      positions[i * 3 + 1] = 9 + Math.random() * 2;
       positions[i * 3 + 2] = -1 + (Math.random() - 0.5) * 0.5;
     }
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -45,9 +45,9 @@ export default function ParticleSystem({ criticalZones, compoundRisk }: Props) {
     const geo = new THREE.BufferGeometry();
     const positions = new Float32Array(heatCount * 3);
     for (let i = 0; i < heatCount; i++) {
-      positions[i * 3] = -2 + (Math.random() - 0.5) * 4;
+      positions[i * 3] = 6.5 + (Math.random() - 0.5) * 4;
       positions[i * 3 + 1] = Math.random() * 3;
-      positions[i * 3 + 2] = -2 + (Math.random() - 0.5) * 3;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 3;
     }
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     return geo;
@@ -74,9 +74,9 @@ export default function ParticleSystem({ criticalZones, compoundRisk }: Props) {
 
         sparkSpeeds[i].life -= 0.008;
         if (sparkSpeeds[i].life <= 0 || positions[i * 3 + 1] > 5) {
-          positions[i * 3] = -2 + (Math.random() - 0.5) * 3;
+          positions[i * 3] = 6.5 + (Math.random() - 0.5) * 3;
           positions[i * 3 + 1] = 0.3 + Math.random() * 0.5;
-          positions[i * 3 + 2] = -2 + (Math.random() - 0.5) * 2;
+          positions[i * 3 + 2] = (Math.random() - 0.5) * 2;
           sparkSpeeds[i].life = 0.5 + Math.random() * 0.5;
           sparkSpeeds[i].vy = 0.01 + Math.random() * (isActive ? 0.05 : 0.02);
         }
@@ -94,9 +94,9 @@ export default function ParticleSystem({ criticalZones, compoundRisk }: Props) {
         positions[i * 3 + 1] += 0.004 + Math.random() * 0.002;
         positions[i * 3] += (Math.random() - 0.5) * 0.004;
 
-        if (positions[i * 3 + 1] > 6) {
-          positions[i * 3] = 3 + (Math.random() - 0.5) * 0.5;
-          positions[i * 3 + 1] = 3.5;
+        if (positions[i * 3 + 1] > 12) {
+          positions[i * 3] = (Math.random() - 0.5) * 0.5;
+          positions[i * 3 + 1] = 9;
           positions[i * 3 + 2] = -1 + (Math.random() - 0.5) * 0.5;
         }
       }
@@ -115,9 +115,9 @@ export default function ParticleSystem({ criticalZones, compoundRisk }: Props) {
           positions[i * 3 + 2] += (Math.random() - 0.5) * 0.008;
 
           if (positions[i * 3 + 1] > 4) {
-            positions[i * 3] = -2 + (Math.random() - 0.5) * 4;
+            positions[i * 3] = 6.5 + (Math.random() - 0.5) * 4;
             positions[i * 3 + 1] = 0.1;
-            positions[i * 3 + 2] = -2 + (Math.random() - 0.5) * 3;
+            positions[i * 3 + 2] = (Math.random() - 0.5) * 3;
           }
         }
         heatGeo.attributes.position.needsUpdate = true;

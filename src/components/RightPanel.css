@@ -1,17 +1,26 @@
 .right-panel {
-  background: var(--bg-panel);
+  position: absolute;
+  top: 60px;
+  right: 16px;
+  width: 280px;
+  bottom: 16px;
+  z-index: 10;
+  background: none;
   display: flex;
   flex-direction: column;
+  gap: 8px;
   overflow: hidden;
-  border-left: 1px solid var(--border-color);
-  min-height: 0;
+  transition: width 0.2s ease;
+}
+
+.right-panel.panel-collapsed {
+  width: 22px;
 }
 
 .right-panel-alerts {
   flex: 0 0 35%;
   min-height: 0;
   overflow: hidden;
-  border-bottom: 1px solid var(--border-color);
 }
 
 .right-panel-copilot {

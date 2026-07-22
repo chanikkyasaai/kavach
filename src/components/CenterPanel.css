@@ -1,18 +1,21 @@
 .center-panel {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  min-height: 0;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 
 .center-tabs {
+  position: absolute;
+  top: 56px;
+  left: 216px;
+  z-index: 15;
   display: flex;
   gap: 2px;
-  padding: 6px 10px 0;
-  background: var(--bg-panel);
-  border-bottom: 1px solid var(--border-color);
-  flex-shrink: 0;
+  padding: 6px 6px 0;
+  background-color: rgba(2, 8, 18, 0.82);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-bottom: none;
 }
 
 .center-tab-btn {
@@ -20,14 +23,14 @@
   padding: 7px 16px;
   border: 1px solid transparent;
   border-bottom: none;
-  border-radius: 6px 6px 0 0;
+  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
   background: transparent;
   color: var(--text-muted);
   font-size: 9.5px;
   font-weight: 700;
   letter-spacing: 1.5px;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
 }
 
 .center-tab-btn:hover {
@@ -40,29 +43,33 @@
   border-color: var(--border-highlight);
 }
 
+.sandbox-tab-btn.active {
+  color: #ecfdf7;
+  background: #0a2b24;
+  border-color: #2dd4bf;
+}
+
 .center-tab-badge {
   position: absolute;
   top: 4px;
   right: 4px;
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: var(--accent-red);
-  box-shadow: 0 0 6px var(--accent-red);
-  animation: badge-blink 1s infinite;
+  animation: badge-blink 1.2s infinite;
 }
 
 .viewport-3d {
-  flex: 1;
-  position: relative;
-  min-height: 0;
-  background: #0f1b2d;
+  position: absolute;
+  inset: 0;
+  background: transparent;
 }
 
 .viewport-label {
   position: absolute;
-  top: 8px;
-  left: 12px;
+  top: 64px;
+  left: 232px;
   z-index: 10;
   display: flex;
   align-items: center;
@@ -84,8 +91,8 @@
 
 .viewport-legend {
   position: absolute;
-  bottom: 8px;
-  left: 12px;
+  top: 86px;
+  left: 232px;
   z-index: 10;
   display: flex;
   gap: 12px;
@@ -111,4 +118,4 @@
 .dot.contract { background: #f59e0b; border-radius: 1px; transform: rotate(45deg); width: 5px; height: 5px; }
 .dot.sensor-ok { background: #10b981; }
 .dot.sensor-warn { background: #f59e0b; }
-.dot.sensor-alarm { background: #ef4444; box-shadow: 0 0 4px #ef4444; }
+.dot.sensor-alarm { background: #ef4444; }

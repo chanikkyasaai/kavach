@@ -1,0 +1,15 @@
+.radial-gauge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.radial-gauge-fill {
+  transition: stroke 0.5s ease, d 0.5s ease;
+}
+
+.radial-gauge-spark {
+  margin-top: -2px;
+  opacity: 0.9;
+}

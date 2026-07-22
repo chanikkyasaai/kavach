@@ -81,9 +81,15 @@ interface KavachState {
   soundMuted: boolean;
 
   // Safety Loop (bow-tie + reactive interventions)
-  centerTab: '3d' | 'safety-loop';
+  centerTab: '3d' | 'safety-loop' | 'sandbox';
   safetyLoopAutoTriggered: boolean;
   executedInterventions: string[];
+
+  // Camera intelligence
+  cameraActive: boolean;
+  cameraWorkerCount: number;
+  identifiedWorkers: Worker[];
+  cameraIpl5Penalty: number;
 
   // Actions
   startScenario: () => void;
@@ -98,13 +104,26 @@ interface KavachState {
   showEvidenceBundle: () => void;
   hideEvidenceBundle: () => void;
   toggleSoundMuted: () => void;
-  setCenterTab: (tab: '3d' | 'safety-loop') => void;
+  setCenterTab: (tab: '3d' | 'safety-loop' | 'sandbox') => void;
   executeIntervention: (id: string) => void;
+  applySimulatedConditions: (iplScores: Record<string, number>) => void;
+  setCameraActive: (active: boolean) => void;
+  setCameraWorkerCount: (count: number) => void;
+  checkInWorker: (worker: Worker, method: 'qr' | 'manual', zone: string) => void;
 }
 
 function calculateCompoundRisk(ipls: IPLState[]): number {
   const product = ipls.reduce((acc, ipl) => acc * (ipl.score / 100), 1);
   return Math.round(100 * (1 - product));
+}
+
+// -12 per identified-but-untrained worker in zone, -8 per detected-but-unidentified
+// person — mirrors real risk: an unqualified worker known to be present is worse
+// than an unverified detection, but both degrade IPL-5.
+function computeCameraPenalty(identifiedWorkers: Worker[], detectedCount: number, zone: string): number {
+  const unqualified = identifiedWorkers.filter(w => w.zone === zone && !w.trained).length;
+  const unidentified = Math.max(0, detectedCount - identifiedWorkers.length);
+  return unqualified * 12 + unidentified * 8;
 }
 
 function getInitialIPLs(): IPLState[] {
@@ -154,6 +173,11 @@ export const useStore = create<KavachState>((set, get) => ({
   centerTab: '3d',
   safetyLoopAutoTriggered: false,
   executedInterventions: [],
+
+  cameraActive: false,
+  cameraWorkerCount: 0,
+  identifiedWorkers: [],
+  cameraIpl5Penalty: 0,
 
   startScenario: () => set({ isPlaying: true }),
   pauseScenario: () => set({ isPlaying: false }),
@@ -316,7 +340,26 @@ export const useStore = create<KavachState>((set, get) => ({
   hideEvidenceBundle: () => set({ evidenceBundleVisible: false }),
   toggleSoundMuted: () => set(state => ({ soundMuted: !state.soundMuted })),
 
-  setCenterTab: (tab: '3d' | 'safety-loop') => set({ centerTab: tab }),
+  setCenterTab: (tab: '3d' | 'safety-loop' | 'sandbox') => set({ centerTab: tab }),
+
+  applySimulatedConditions: (iplScores: Record<string, number>) => set(state => {
+    const newIPLs = state.ipls.map(ipl => ({
+      ...ipl,
+      score: iplScores[ipl.id] ?? ipl.score,
+      factors: 'Conditions applied from Simulation Sandbox — see evidence bundle for prior state.',
+    }));
+    const newCompoundRisk = calculateCompoundRisk(newIPLs);
+    const alert: Alert = {
+      id: `sim-apply-${Date.now()}`,
+      timestamp: state.scenarioTime,
+      level: 'info',
+      title: 'SIMULATED CONDITIONS APPLIED TO LIVE SCENARIO',
+      description: `Compound risk ${state.compoundRisk} → ${newCompoundRisk}. Variable set applied from Simulation Sandbox.`,
+      zone: 'Z1',
+      acknowledged: true,
+    };
+    return { ipls: newIPLs, compoundRisk: newCompoundRisk, alerts: [...state.alerts, alert] };
+  }),
 
   executeIntervention: (id: string) => set(state => {
     const intervention = interventions.find(i => i.id === id);
@@ -352,6 +395,95 @@ export const useStore = create<KavachState>((set, get) => ({
       compoundRisk: newCompoundRisk,
       alerts: [...state.alerts, executionAlert],
       executedInterventions: [...state.executedInterventions, id],
+    };
+  }),
+
+  setCameraActive: (active: boolean) => set(state => {
+    if (active) return { cameraActive: true };
+    // Deactivating drops the live feed's influence — the penalty it applied unwinds.
+    const newIPLs = state.ipls.map(ipl =>
+      ipl.id === 'ipl5' ? { ...ipl, score: Math.min(100, ipl.score + state.cameraIpl5Penalty) } : ipl
+    );
+    return {
+      cameraActive: false,
+      cameraWorkerCount: 0,
+      identifiedWorkers: [],
+      cameraIpl5Penalty: 0,
+      ipls: newIPLs,
+      compoundRisk: calculateCompoundRisk(newIPLs),
+    };
+  }),
+
+  setCameraWorkerCount: (count: number) => set(state => {
+    const newPenalty = computeCameraPenalty(state.identifiedWorkers, count, 'Z1');
+    const delta = newPenalty - state.cameraIpl5Penalty;
+    if (delta === 0) return { cameraWorkerCount: count };
+    const newIPLs = state.ipls.map(ipl =>
+      ipl.id === 'ipl5' ? { ...ipl, score: Math.max(0, Math.min(100, ipl.score - delta)) } : ipl
+    );
+    return {
+      cameraWorkerCount: count,
+      cameraIpl5Penalty: newPenalty,
+      ipls: newIPLs,
+      compoundRisk: calculateCompoundRisk(newIPLs),
+    };
+  }),
+
+  checkInWorker: (worker: Worker, method: 'qr' | 'manual', zone: string) => set(state => {
+    const already = state.identifiedWorkers.some(w => w.id === worker.id);
+    const identifiedWorkers = already
+      ? state.identifiedWorkers.map(w => w.id === worker.id ? worker : w)
+      : [...state.identifiedWorkers, worker];
+
+    const workers = state.workers.some(w => w.id === worker.id)
+      ? state.workers.map(w => w.id === worker.id ? worker : w)
+      : [...state.workers, worker];
+
+    const newPenalty = computeCameraPenalty(identifiedWorkers, state.cameraWorkerCount, 'Z1');
+    const delta = newPenalty - state.cameraIpl5Penalty;
+    const newIPLs = state.ipls.map(ipl =>
+      ipl.id === 'ipl5'
+        ? {
+            ...ipl,
+            score: Math.max(0, Math.min(100, ipl.score - delta)),
+            factors: !worker.trained
+              ? `Camera check-in: ${worker.name} (${worker.employer}) — training EXPIRED (${worker.trainingExpiry}). Unqualified worker in hazard zone.`
+              : ipl.factors,
+          }
+        : ipl
+    );
+    const newCompoundRisk = calculateCompoundRisk(newIPLs);
+
+    const newAlerts = [...state.alerts];
+    if (!worker.trained) {
+      newAlerts.push({
+        id: `camera-checkin-${Date.now()}-${worker.id}`,
+        timestamp: state.scenarioTime,
+        level: 'amber',
+        title: `CONTRACT WORKER — TRAINING EXPIRED — Zone ${zone}`,
+        description: `${worker.name} (${worker.employer}, ${worker.role}) checked in via ${method === 'qr' ? 'QR scan' : 'manual entry'}. Training expired ${worker.trainingExpiry}. IPL-5 degraded.`,
+        zone,
+        acknowledged: false,
+      });
+    } else {
+      newAlerts.push({
+        id: `camera-checkin-${Date.now()}-${worker.id}`,
+        timestamp: state.scenarioTime,
+        level: 'info',
+        title: `WORKER CHECK-IN — Zone ${zone}`,
+        description: `${worker.name} (${worker.employer}, ${worker.role}) checked in via ${method === 'qr' ? 'QR scan' : 'manual entry'}. Training current.`,
+        zone,
+        acknowledged: true,
+      });
+    }
+
+    return {
+      identifiedWorkers,
+      workers,
+      cameraIpl5Penalty: newPenalty,
+      ipls: newIPLs,
+      compoundRisk: newCompoundRisk,
+      alerts: newAlerts,
     };
   }),
 }));

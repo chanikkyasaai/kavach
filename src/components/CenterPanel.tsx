@@ -5,6 +5,8 @@ import { useStore } from '../store/useStore';
 import PlantScene from './three/PlantScene';
 import BottomStrip from './BottomStrip';
 import SafetyLoopPanel from './SafetyLoopPanel';
+import SandboxPanel from './SandboxPanel';
+import CameraPanel from './CameraPanel';
 import './CenterPanel.css';
 
 export default function CenterPanel() {
@@ -29,6 +31,12 @@ export default function CenterPanel() {
           SAFETY LOOP
           {showSafetyLoopBadge && <span className="center-tab-badge" />}
         </button>
+        <button
+          className={`center-tab-btn sandbox-tab-btn ${centerTab === 'sandbox' ? 'active' : ''}`}
+          onClick={() => setCenterTab('sandbox')}
+        >
+          SIMULATION SANDBOX
+        </button>
       </div>
       <div className="viewport-3d" style={{ display: centerTab === '3d' ? 'block' : 'none' }}>
         <div className="viewport-label">
@@ -42,68 +50,78 @@ export default function CenterPanel() {
           <span className="legend-item"><span className="dot sensor-warn"></span>Warning</span>
           <span className="legend-item"><span className="dot sensor-alarm"></span>Alarm</span>
         </div>
+        <CameraPanel />
         <Canvas
-          camera={{ position: [12, 9, 12], fov: 42, near: 0.1, far: 100 }}
+          camera={{ position: [8, 19, 22], fov: 42, near: 0.5, far: 300 }}
           shadows
-          gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
-          style={{ background: '#0f1b2d' }}
+          gl={{ antialias: true, alpha: false, powerPreference: 'high-performance', toneMappingExposure: 1.35 }}
+          style={{ background: '#050508' }}
         >
           <Suspense fallback={null}>
             {/* Strong ambient so nothing is black */}
-            <ambientLight intensity={0.6} color="#b8c8e0" />
+            <ambientLight intensity={0.85} color="#c3d3ea" />
 
-            {/* Main sun light — high intensity */}
+            {/* Main sun (key) light — high intensity, raised for the taller blast furnace */}
             <directionalLight
-              position={[10, 20, 8]}
-              intensity={1.2}
-              color="#ffffff"
+              position={[18, 42, 16]}
+              intensity={1.9}
+              color="#fff4e0"
               castShadow
               shadow-mapSize={[2048, 2048]}
-              shadow-camera-far={50}
-              shadow-camera-left={-15}
-              shadow-camera-right={15}
-              shadow-camera-top={15}
-              shadow-camera-bottom={-15}
+              shadow-camera-far={130}
+              shadow-camera-left={-26}
+              shadow-camera-right={26}
+              shadow-camera-top={22}
+              shadow-camera-bottom={-18}
             />
 
             {/* Fill light from opposite side */}
             <directionalLight
-              position={[-8, 10, -6]}
-              intensity={0.4}
+              position={[-14, 20, -10]}
+              intensity={0.55}
               color="#a0c0ff"
             />
 
-            {/* Warm furnace glow */}
-            <pointLight position={[-2, 2, -2]} intensity={3} color="#ff6600" distance={8} decay={2} />
+            {/* Rim/backlight — separates structures from the dark background */}
+            <directionalLight
+              position={[-8, 14, 22]}
+              intensity={0.6}
+              color="#7ee0ff"
+            />
 
-            {/* Cool accent */}
-            <pointLight position={[2, 3, 3]} intensity={1} color="#06b6d4" distance={8} decay={2} />
+            {/* Warm furnace glow near Blast Furnace / SMS */}
+            <pointLight position={[2, 8, -1]} intensity={6} color="#ff6600" distance={18} decay={2} />
+
+            {/* Cool accent near Coke Ovens */}
+            <pointLight position={[-9, 3, -1]} intensity={1.8} color="#06b6d4" distance={12} decay={2} />
 
             {/* Hemisphere light for even fill */}
-            <hemisphereLight args={['#4488cc', '#1a2244', 0.4]} />
+            <hemisphereLight args={['#5a9bd4', '#1a2244', 0.55]} />
 
-            {/* Fog for depth (navy tinted) */}
-            <fog attach="fog" args={['#0f1b2d', 20, 45]} />
+            {/* Exponential fog — distant structures (rolling mills) fade into
+                atmospheric haze instead of reading as "placed in space". */}
+            <fogExp2 attach="fog" args={['#060810', 0.018]} />
 
-            <PlantScene />
+            <PlantScene storeType="live" />
 
             <OrbitControls
               enableDamping
               dampingFactor={0.05}
               minPolarAngle={0.3}
               maxPolarAngle={Math.PI / 2.3}
-              minDistance={5}
-              maxDistance={22}
+              minDistance={9}
+              maxDistance={60}
               autoRotate
-              autoRotateSpeed={0.2}
-              target={[0, 0.5, 0]}
+              autoRotateSpeed={0.12}
+              target={[0, 2, 1]}
             />
           </Suspense>
         </Canvas>
       </div>
-      <div style={{ display: centerTab === 'safety-loop' ? 'flex' : 'none', flex: 1, minHeight: 0 }}>
+      <div style={{ display: centerTab === 'safety-loop' ? 'contents' : 'none' }}>
         <SafetyLoopPanel />
       </div>
+      {centerTab === 'sandbox' && <SandboxPanel />}
       <BottomStrip />
     </div>
   );

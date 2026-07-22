@@ -1,7 +1,14 @@
 import { useRef, useEffect } from 'react';
 import { useStore } from '../store/useStore';
 import { formatTime } from '../utils/lopa';
+import CornerBrackets from './CornerBrackets';
 import './AlertFeed.css';
+
+const PRIORITY_LABEL: Record<string, string> = {
+  critical: 'P1',
+  amber: 'P2',
+  info: 'P3',
+};
 
 export default function AlertFeed() {
   const alerts = useStore(s => s.alerts);
@@ -15,14 +22,20 @@ export default function AlertFeed() {
   }, [alerts.length]);
 
   const sortedAlerts = [...alerts].reverse();
+  const unackCount = alerts.filter(a => !a.acknowledged).length;
 
   return (
-    <div className="alert-feed">
-      <div className="alert-feed-header">
-        <span className="alert-feed-title">ALERT FEED</span>
-        {alerts.filter(a => !a.acknowledged).length > 0 && (
-          <span className="alert-count">{alerts.filter(a => !a.acknowledged).length}</span>
-        )}
+    <div className="alert-feed glass-panel">
+      <CornerBrackets />
+      <div className="alert-feed-header panel-header-bar">
+        <span>
+          <span className="panel-glyph">◈</span>
+          <span className="alert-feed-title">ALERT FEED</span>
+        </span>
+        <span className="panel-header-right">
+          {unackCount > 0 && <span className="alert-count">{unackCount}</span>}
+          <span className="panel-live-dot" />
+        </span>
       </div>
       <div className="alert-feed-list" ref={scrollRef}>
         {sortedAlerts.length === 0 && (
@@ -33,11 +46,16 @@ export default function AlertFeed() {
             key={alert.id}
             className={`alert-card alert-${alert.level} ${alert.acknowledged ? 'acknowledged' : ''}`}
           >
+            <CornerBrackets size={10} thickness={1} />
+            <span className="alert-priority-badge">{PRIORITY_LABEL[alert.level]}</span>
             <div className="alert-card-header">
               <span className={`alert-level-badge ${alert.level}`}>
                 {alert.level === 'critical' ? '🚨' : alert.level === 'amber' ? '⚠️' : 'ℹ️'}
               </span>
-              <span className="alert-card-title">{alert.title}</span>
+              <span className="alert-card-title mono">
+                {alert.title}
+                {!alert.acknowledged && <span className="alert-cursor">█</span>}
+              </span>
               <span className="alert-time mono">{formatTime(alert.timestamp)}</span>
             </div>
             <p className="alert-desc">{alert.description}</p>

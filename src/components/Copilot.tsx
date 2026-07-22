@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useStore } from '../store/useStore';
 import { queryCopilot } from '../utils/copilot';
+import CornerBrackets from './CornerBrackets';
 import './Copilot.css';
 
 const QUICK_QUERIES = [
@@ -106,10 +107,17 @@ export default function Copilot() {
   };
 
   return (
-    <div className="copilot">
-      <div className="copilot-header">
-        <span className="copilot-title">AI SAFETY COPILOT</span>
-        <span className="copilot-model mono">claude-sonnet-4</span>
+    <div className="copilot glass-panel">
+      <CornerBrackets />
+      <div className="copilot-header panel-header-bar">
+        <span>
+          <span className="panel-glyph">◈</span>
+          <span className="copilot-title">AI SAFETY COPILOT</span>
+        </span>
+        <span className="panel-header-right">
+          <span className="copilot-model mono">claude-sonnet-4</span>
+          <span className="panel-live-dot" />
+        </span>
       </div>
 
       <div className="copilot-messages" ref={messagesRef}>

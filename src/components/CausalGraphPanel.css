@@ -1,0 +1,155 @@
+.causal-graph-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  position: relative;
+}
+
+.cgp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+}
+
+.cgp-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-primary);
+}
+
+.cgp-subtitle {
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.3px;
+}
+
+.cgp-svg {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+}
+
+.cgp-level-label {
+  fill: var(--text-muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.cgp-edge {
+  stroke: var(--sim-accent);
+  opacity: 0.35;
+  transition: opacity 0.3s;
+}
+
+.cgp-edge-pulse {
+  opacity: 1;
+  animation: cgp-edge-flow 0.7s ease-out;
+}
+
+@keyframes cgp-edge-flow {
+  0% { opacity: 1; stroke-width: 5; }
+  100% { opacity: 0.35; }
+}
+
+.cgp-node {
+  cursor: pointer;
+}
+
+.cgp-node-rect {
+  fill: var(--bg-tertiary);
+  stroke: var(--border-highlight);
+  stroke-width: 1;
+  transition: stroke 0.2s, fill 0.2s;
+}
+
+.cgp-node:hover .cgp-node-rect {
+  stroke: var(--sim-accent);
+}
+
+.cgp-node-active {
+  stroke: var(--sim-accent) !important;
+  stroke-width: 1.5 !important;
+}
+
+.cgp-node-label {
+  fill: var(--text-secondary);
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.cgp-node-value {
+  fill: var(--text-primary);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.cgp-node-delta {
+  font-size: 9px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.cgp-node-delta.safe { fill: #34d399; }
+.cgp-node-delta.unsafe { fill: #f87171; }
+
+.cgp-node-chip {
+  fill: var(--sim-accent);
+  font-size: 7.5px;
+  opacity: 0.8;
+}
+
+.cgp-editor {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  right: 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--sim-accent);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  box-shadow: var(--shadow-elevated);
+}
+
+.cgp-editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.cgp-editor-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.cgp-editor-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--sim-accent);
+  margin-bottom: 8px;
+}
+
+.cgp-editor input[type="range"] {
+  width: 100%;
+  accent-color: #2dd4bf;
+}
+
+.cgp-editor-range {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}

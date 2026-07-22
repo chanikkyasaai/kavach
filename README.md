@@ -55,12 +55,12 @@ A score of 30 across five layers produces compound risk 83 — **critical** — 
 *Live bow-tie: barrier width = real-time IPL health score. Execute Now — barrier restores, risk drops, intervention evidence-logged.*
 
 ### Simulation Sandbox
-![Simulation sandbox - causal graph and privatisation stress scenario](/screenshots/kavachsandbox.png)
+![Simulation sandbox - causal graph and privatisation stress scenario](/screenshots/kavach-sandbox.png)
 
 *Privatisation Stress Scenario: staffing 45%, maintenance 60%. Compound risk 95 — zero process anomaly. Purely organizational decisions.*
 
 ### Camera Intelligence — Live Person Detection
-![Camera detection](/screenshots/kavach-camera.png)
+![Camera detection](/screenshots/kavach-cam.png)
 *Live webcam feed with TensorFlow.js person detection. Unidentified person in hazard zone triggers immediate alert. Worker count feeds IPL-5 Human Factors score in real time.*
 
 ### QR Worker Identification

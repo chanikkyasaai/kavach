@@ -40,31 +40,31 @@ A score of 30 across five layers produces compound risk 83 — **critical** — 
 ## Screenshots
 
 ### Nominal State — Risk 54
-![Nominal state - 3D plant view with IPL dials green](.github/screenshots/kavach-nominal.png)
+![Nominal state - 3D plant view with IPL dials green](/screenshots/kavach-nominal.png)
 
 *The real Visakhapatnam Steel Plant in 3D. Blast furnaces dominant. Coke oven batteries — the accident zone. Five IPL dials, all healthy. Compound risk: 54.*
 
 ### Critical Alert — Risk 97
-![Critical alert state - red zones, edge lighting](.github/screenshots/kavach-issue.png)
+![Critical alert state - red zones, edge lighting](/screenshots/kavach-issue.png)
 
 *KAVACH detected compound failure at T+35 (15:35). Real fatal explosion: T+45 (15:45). Ten minutes of intervention time.*
 
 ### Safety Loop — Live Bow-Tie
-![Safety loop with bow-tie visualization](.github/screenshots/kavach-exec.png)
+![Safety loop with bow-tie visualization](/screenshots/kavach-exec.png)
 
 *Live bow-tie: barrier width = real-time IPL health score. Execute Now — barrier restores, risk drops, intervention evidence-logged.*
 
 ### Simulation Sandbox
-![Simulation sandbox - causal graph and privatisation stress scenario](.github/screenshots/kavachsandbox.png)
+![Simulation sandbox - causal graph and privatisation stress scenario](/screenshots/kavachsandbox.png)
 
 *Privatisation Stress Scenario: staffing 45%, maintenance 60%. Compound risk 95 — zero process anomaly. Purely organizational decisions.*
 
 ### Camera Intelligence — Live Person Detection
-![Camera detection](.github/screenshots/kavach-camera.png)
+![Camera detection](/screenshots/kavach-camera.png)
 *Live webcam feed with TensorFlow.js person detection. Unidentified person in hazard zone triggers immediate alert. Worker count feeds IPL-5 Human Factors score in real time.*
 
 ### QR Worker Identification
-![QR identification](.github/screenshots/kavach-qr.png)
+![QR identification](/screenshots/kavach-qr.png)
 *QR scan at zone gate confirms worker identity instantly — name, employer, training status checked against zone hazard class. Minimum viable deployment: a printed QR and any smartphone.*
 
 ---
